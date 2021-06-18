@@ -1,5 +1,3 @@
-import { gql } from "apollo-server-express";
-
 // Mockup database
 const users = [
   {
@@ -36,16 +34,4 @@ const resolvers = {
   },
 };
 
-const typeDefs = gql`
-  type Query {
-    me: User!
-    user(id: ID!): User
-    users: [User]!
-  }
-  type User {
-    id: ID!
-    name: String!
-  }
-`;
-
-export { typeDefs, resolvers };
+export default resolvers;
