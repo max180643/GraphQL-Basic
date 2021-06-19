@@ -1,6 +1,7 @@
 import validator from "validator";
 import bcrypt from "bcryptjs";
 import User from "../models/user";
+import Product from "../models/product";
 
 const Mutation = {
   signup: async (parent, args, context, info) => {
@@ -8,7 +9,7 @@ const Mutation = {
     const email = args.email.trim().toLowerCase();
 
     // Check email is valid
-    if (validator.isEmail(email) === false) {
+    if (!validator.isEmail(email)) {
       throw new Error("Email not valid.");
     }
 
@@ -26,7 +27,7 @@ const Mutation = {
     const password = args.password.trim();
 
     // Validate password
-    if (validator.isLength(password, { min: 6 }) === false) {
+    if (!validator.isLength(password, { min: 6 })) {
       throw new Error("Password must be at least 6 characters.");
     }
 
@@ -40,6 +41,33 @@ const Mutation = {
     });
 
     return newUser;
+  },
+  createProduct: async (parent, args, context, info) => {
+    const userId = "60cdd09eb1059f4678583de5";
+    const { description, price, imageUrl } = args;
+
+    if (!description || !price || !imageUrl) {
+      throw new Error("Please provide all required fields.");
+    }
+
+    // Create product
+    const product = await Product.create({ ...args, user: userId });
+
+    // Update user product
+    const user = await User.findById(userId);
+
+    if (!user.products) {
+      user.products = [product];
+    } else {
+      user.products.push(product);
+    }
+
+    await user.save();
+
+    return Product.findById(product.id).populate({
+      path: "user",
+      populate: { path: "products" },
+    });
   },
 };
 
