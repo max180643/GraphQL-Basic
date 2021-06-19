@@ -1,3 +1,5 @@
+// ทำได้ 2 แบบ 1.typeDefs.js 2.schema.graphql ต่างที่การ import ใน server.js
+
 import { gql } from "apollo-server-express";
 
 const typeDefs = gql`
