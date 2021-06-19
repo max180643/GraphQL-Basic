@@ -13,6 +13,7 @@
     "esm": "^3.2.25",
     "express": "^4.17.1",
     "graphql": "^15.5.0",
+    "graphql-iso-date": "^3.6.1",
     "mongoose": "^5.12.14",
     "nodemon": "^2.0.7",
     "validator": "^13.6.0"

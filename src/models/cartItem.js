@@ -2,20 +2,15 @@
 
 import mongoose from "mongoose";
 
-const productSchema = new mongoose.Schema({
-  description: {
-    type: String,
+const cartItemSchema = new mongoose.Schema({
+  product: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Product",
     required: true,
-    trim: true,
   },
-  price: {
+  quantity: {
     type: Number,
     required: true,
-  },
-  imageUrl: {
-    type: String,
-    required: true,
-    trim: true,
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
@@ -29,6 +24,6 @@ const productSchema = new mongoose.Schema({
   },
 });
 
-const Product = mongoose.model("Product", productSchema);
+const CartItem = mongoose.model("CartItem", cartItemSchema);
 
-export default Product;
+export default CartItem;

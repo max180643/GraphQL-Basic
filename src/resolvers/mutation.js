@@ -43,7 +43,7 @@ const Mutation = {
     return newUser;
   },
   createProduct: async (parent, args, context, info) => {
-    const userId = "60cdd09eb1059f4678583de5";
+    const userId = "60ce4c7b56048d50510b0ce9";
     const { description, price, imageUrl } = args;
 
     if (!description || !price || !imageUrl) {

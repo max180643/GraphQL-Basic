@@ -11,7 +11,10 @@ const Query = {
     });
   },
   users: (parent, args, context, info) => {
-    return User.find({});
+    return User.find({}).populate({
+      path: "products",
+      populate: { path: "user" },
+    });
   },
   product: (parent, args, context, info) => {
     return Product.findById(args.id).populate({
