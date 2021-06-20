@@ -5,16 +5,20 @@ import Product from "../models/product";
 
 const Query = {
   user: (parent, args, context, info) => {
-    return User.findById(args.id).populate({
-      path: "products",
-      populate: { path: "user" },
-    });
+    return User.findById(args.id)
+      .populate({
+        path: "products",
+        populate: { path: "user" },
+      })
+      .populate({ path: "carts", populate: { path: "product" } });
   },
   users: (parent, args, context, info) => {
-    return User.find({}).populate({
-      path: "products",
-      populate: { path: "user" },
-    });
+    return User.find({})
+      .populate({
+        path: "products",
+        populate: { path: "user" },
+      })
+      .populate({ path: "carts", populate: { path: "product" } });
   },
   product: (parent, args, context, info) => {
     return Product.findById(args.id).populate({
