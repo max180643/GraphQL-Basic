@@ -84,7 +84,7 @@ const Mutation = {
     const userId = "60ce4c7b56048d50510b0ce9";
 
     if (userId !== product.user.toString()) {
-      throw new Error("You are not authorized");
+      throw new Error("You are not authorized.");
     }
 
     // Form updated information
@@ -166,6 +166,36 @@ const Mutation = {
     } catch (error) {
       console.log(error);
     }
+  },
+  deleteCart: async (parent, args, context, info) => {
+    const { id } = args;
+
+    // Find cart from given id
+    const cart = await CartItem.findById(id);
+
+    // TODO: Check if user logged in
+
+    // TODO: user id from request -> Find user
+    const userId = "60cefccedef4a75aa852dc29";
+
+    const user = await User.findById(userId);
+
+    // Check ownership of the cart
+    if (cart.user.toString() !== userId) {
+      throw new Error("You are not authorized.");
+    }
+
+    // Delete cart
+    const deletedCart = await CartItem.findByIdAndRemove(id);
+
+    // Delete cartItem in user
+    const updatedUserCarts = user.carts.filter(
+      (cartId) => cartId.toString() !== deletedCart.id.toString()
+    );
+
+    await User.findByIdAndUpdate(userId, { carts: updatedUserCarts });
+
+    return deletedCart;
   },
 };
 

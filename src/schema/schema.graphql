@@ -23,6 +23,8 @@ type Mutation {
   ): Product!
   # id -> productId
   addToCart(id: ID!): CartItem!
+  # id -> cartId
+  deleteCart(id: ID!): CartItem!
 }
 
 # custom scalar type
