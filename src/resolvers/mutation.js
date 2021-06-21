@@ -45,7 +45,11 @@ const Mutation = {
   },
   createProduct: async (parent, args, context, info) => {
     // Find user who perform create product -> from logged in
-    const userId = "60ce4c7b56048d50510b0ce9";
+    // const userId = "60ce4c7b56048d50510b0ce9";
+    const { userId } = context.userId;
+
+    // Check if user logged in
+    if (!userId) throw new Error("Please log in.");
 
     const { description, price, imageUrl } = args;
 
@@ -74,14 +78,13 @@ const Mutation = {
   },
   updateProduct: async (parent, args, context, info) => {
     const { id, description, price, imageUrl } = args;
+    const { userId } = context.userId;
 
-    // TODO: Check if user logged in
+    // Check if user logged in
+    if (!userId) throw new Error("Please log in.");
 
     // Find product in database
     const product = await Product.findById(id);
-
-    // TODO: Check if user is the owner of the product
-    const userId = "60ce4c7b56048d50510b0ce9";
 
     if (userId !== product.user.toString()) {
       throw new Error("You are not authorized.");
@@ -107,10 +110,14 @@ const Mutation = {
   addToCart: async (parent, args, context, info) => {
     // id -> productId
     const { id } = args;
+    const { userId } = context.userId;
+
+    // Check if user logged in
+    if (!userId) throw new Error("Please log in.");
 
     try {
       // Find user who perform add to cart -> from logged in
-      const userId = "60cefccedef4a75aa852dc29";
+      // const userId = "60cefccedef4a75aa852dc29";
 
       // Check if the new addToCart item is already in user.carts
       const user = await User.findById(userId).populate({
@@ -169,14 +176,16 @@ const Mutation = {
   },
   deleteCart: async (parent, args, context, info) => {
     const { id } = args;
+    const { userId } = context.userId;
+
+    // Check if user logged in
+    if (!userId) throw new Error("Please log in.");
 
     // Find cart from given id
     const cart = await CartItem.findById(id);
 
-    // TODO: Check if user logged in
-
     // TODO: user id from request -> Find user
-    const userId = "60cefccedef4a75aa852dc29";
+    // const userId = "60cefccedef4a75aa852dc29";
 
     const user = await User.findById(userId);
 
