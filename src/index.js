@@ -4,12 +4,12 @@ import mongoose from "mongoose";
 import server from "./server";
 
 dotenv.config();
-const { DB_USER, DB_PASSWORD, DB_NAME, PORT } = process.env;
+const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME, PORT } = process.env;
 
 const createServer = async () => {
   try {
     await mongoose.connect(
-      `mongodb+srv://${DB_USER}:${DB_PASSWORD}@graphql-basic.entvt.mongodb.net/${DB_NAME}?retryWrites=true&w=majority`,
+      `mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}?retryWrites=true&w=majority`,
       { useNewUrlParser: true, useUnifiedTopology: true }
     );
 
